@@ -10,7 +10,6 @@ packages = [{include = "fastapi_toy_project"}]
 python = "^3.9"
 fastapi = "^0.88.0"
 uvicorn = "^0.20.0"
-gunicorn = "^20.1.0"
 
 
 [build-system]

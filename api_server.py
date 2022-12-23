@@ -21,6 +21,9 @@ class BankType(str, Enum):
 app = FastAPI()
 
 
+# @ 기본 매개변수
+
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -53,10 +56,15 @@ async def get_intro(bank_type: BankType):
 
 fake_items_db = [{"name": "Ted"}, {"name": "Robin"}, {"name": "Barney"}]
 
+# @ 쿼리 매개변수
+
 
 @app.get("/info/")
 async def read_info(skip: int = 0, limit: int = 2):
     return fake_items_db[skip : skip + limit]
+
+
+# @ Query 클래스 이용한 쿼리 매개변수 검증
 
 
 @app.get("/tv-shows/{tv_show_name}")
@@ -87,12 +95,18 @@ async def read_characters(q: Optional[List[str]] = Query(["white", "motive", "do
     return query_items
 
 
+# @ Path 클래스 이용한 경로 매개변수 검증
+
+
 @app.get("/numbers/{number_value}")
 # ge: greater than or equal, lt: less than
 async def read_number(
     number_value: int = Path(..., title="The value of number", ge=100)
 ):
     return {"number": number_value}
+
+
+# @ Request Body 추가
 
 
 class Drama(BaseModel):

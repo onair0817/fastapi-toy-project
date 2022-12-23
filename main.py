@@ -93,3 +93,18 @@ async def read_number(
     number_value: int = Path(..., title="The value of number", ge=100)
 ):
     return {"number": number_value}
+
+
+class Drama(BaseModel):
+    name: str
+    description: Optional[str] = None
+    score: float
+    channel: Optional[str] = None
+
+
+@app.put("/dramas/{drama_id}")
+async def create_drama(drama_id: int, drama: Drama, q: Optional[str] = None):
+    result = {"drama_id": drama_id, **drama.dict()}
+    if q:
+        result.update({"q": q})
+    return result

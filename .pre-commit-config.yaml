@@ -1,0 +1,21 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: check-yaml
+    -   id: check-json
+-   repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+    - id: isort
+      exclude: ^.*\b(migrations)\b.*$
+-   repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+    - id: black
+      language_version: python3.x # 버전 명시해줘야 함
+-   repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+    - id: flake8

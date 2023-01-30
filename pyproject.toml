@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "fastapi-toy-project"
+version = "0.1.0"
+description = ""
+authors = ["Sungsoo <onair0817@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fastapi_toy_project"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flake8 = "^6.0.0"
+black = "^22.12.0"
+isort = "^5.12.0"
+pre-commit = "^3.0.2"
+mypy = "^0.991"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

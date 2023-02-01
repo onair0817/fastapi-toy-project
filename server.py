@@ -1,7 +1,11 @@
 from pydantic import BaseModel
 from fastapi import FastAPI
 import aio_pika
+import aiohttp
 import asyncio
+import aioredis
+import json
+
 
 app = FastAPI()
 
@@ -44,9 +48,31 @@ async def process_message(channel, method, properties, body):
 """
 
 
+async def cache_req(request: Request):
+    # Connect to Redis server
+    redis = await aioredis.create_redis_pool("redis://localhost")
+
+    # Check if the data exists in cache
+    response_data = await redis.get(request.url + request.params)
+    if response_data:
+        return Response(status_code=200, content=json.loads(response_data))
+
+    # Call API server if data is not in cache
+    response = await call_api_server(request)
+
+    # Save response in cache
+    await redis.set(
+        request.url + request.params, json.dumps(response.content), expire=3600
+    )
+
+    return response
+
+
 async def call_api_server(request: Request):
-    # code to call api server and get response
-    return Response(status_code=200, content={"message": "success"})
+    async with aiohttp.ClientSession() as session:
+        async with session.post(request.url, json=request.params) as resp:
+            api_response = await resp.json()
+    return Response(status_code=resp.status, content=api_response)
 
 
 async def publish_response(response: Response):
@@ -66,8 +92,13 @@ async def publish_request(request: Request):
 
 
 async def main():
-    # code to connect to rabbitmq and start consuming messages
-    pass
+    # code to connect rabbitmq
+    connection = await aio_pika.connect_robust(
+        "amqp://guest:guest@localhost/", loop=asyncio.get_event_loop()
+    )
+    channel = await connection.channel()
+    queue = await channel.declare_queue("request_queue", durable=True)
+    await queue.consume(process_message)
 
 
 if __name__ == "__main__":

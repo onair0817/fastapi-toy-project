@@ -3,8 +3,6 @@ from fastapi import FastAPI
 import aio_pika
 import aiohttp
 import asyncio
-import aioredis
-import json
 
 
 app = FastAPI()
@@ -46,26 +44,6 @@ async def process_message(channel, method, properties, body):
     )
     await channel.basic_ack(delivery_tag=method.delivery_tag)
 """
-
-
-async def cache_req(request: Request):
-    # Connect to Redis server
-    redis = await aioredis.create_redis_pool("redis://localhost")
-
-    # Check if the data exists in cache
-    response_data = await redis.get(request.url + request.params)
-    if response_data:
-        return Response(status_code=200, content=json.loads(response_data))
-
-    # Call API server if data is not in cache
-    response = await call_api_server(request)
-
-    # Save response in cache
-    await redis.set(
-        request.url + request.params, json.dumps(response.content), expire=3600
-    )
-
-    return response
 
 
 async def call_api_server(request: Request):

@@ -1,22 +1,29 @@
+from models import Request
+from services import publish_request, process_message
+
 from fastapi import FastAPI
-import pika
+import aio_pika
+import asyncio
+
 
 app = FastAPI()
 
-# Connect to RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
-channel = connection.channel()
+
+@app.post("/ingress")
+async def ingress(request: Request):
+    await publish_request(request)
+    return {"message": "success"}
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+async def main():
+    # code to connect rabbitmq
+    connection = await aio_pika.connect_robust(
+        "amqp://guest:guest@localhost/", loop=asyncio.get_event_loop()
+    )
+    channel = await connection.channel()
+    queue = await channel.declare_queue("request_queue", durable=True)
+    await queue.consume(process_message)
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    message = {"item_id": item_id}
-    if q:
-        message["q"] = q
-    channel.basic_publish(exchange="", routing_key="task_queue", body=str(message))
-    return {"item_id": item_id, "message": "Message sent to RabbitMQ"}
+if __name__ == "__main__":
+    asyncio.run(main())

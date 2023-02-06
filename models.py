@@ -1,5 +1,11 @@
-# Item model
-class Item:
-    def __init__(self, id: int, name: str):
-        self.id = id
-        self.name = name
+from pydantic import BaseModel
+
+
+class Request(BaseModel):
+    url: str
+    params: dict
+
+
+class Response(BaseModel):
+    status_code: int
+    content: dict

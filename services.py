@@ -13,6 +13,7 @@ async def process_message(message: aio_pika.IncomingMessage):
 
 
 """
+# API 서버를 여러개 두고 처리하는 process_message 함수 
 async def process_message(channel, method, properties, body):
     api_servers = [f"http://api-server-{i}.com" for i in range(1, 6)]
     request_data = json.loads(body)

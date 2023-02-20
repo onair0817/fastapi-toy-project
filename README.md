@@ -1,9 +1,3 @@
----
-
-**Source Code**: <a href="https://github.com/onair0817/fastapi-toy-project.git" target="_blank">https://github.com/onair0817/fastapi-toy-project.git</a>
-
----
-
 > 코드 설명
 main.py: FastAPI 애플리케이션 생성, RabbitMQ 연결 설정, API 엔드포인트 정의.
 tasks.py: RabbitMQ 메시지 처리 태스크 정의.

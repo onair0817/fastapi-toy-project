@@ -1,10 +1,10 @@
 > 코드 설명
-main.py: FastAPI 애플리케이션 생성, RabbitMQ 연결 설정, API 엔드포인트 정의.
-tasks.py: RabbitMQ 메시지 처리 태스크 정의.
-services.py: 각 API 엔드포인트에서 호출할 비즈니스 로직 구현.
-models.py: 프로그램에서 사용할 데이터 모델 정의.
-utils.py: 프로그램에서 사용할 유틸리티 기능 구현.
-tests.py: 프로그램 테스트 코드 구현.
+- main.py: FastAPI 애플리케이션 생성, RabbitMQ 연결 설정, API 엔드포인트 정의.
+- tasks.py: RabbitMQ 메시지 처리 태스크 정의.
+- services.py: 각 API 엔드포인트에서 호출할 비즈니스 로직 구현.
+- models.py: 프로그램에서 사용할 데이터 모델 정의.
+- utils.py: 프로그램에서 사용할 유틸리티 기능 구현.
+- tests.py: 프로그램 테스트 코드 구현.
 
 > 동작 확인
 RabbitMQ Docker 컨테이너 생성 및 실행:

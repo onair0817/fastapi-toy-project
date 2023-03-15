@@ -9,12 +9,12 @@ repos:
     rev: 5.10.1
     hooks:
     - id: isort
-      exclude: ^.*\b(migrations)\b.*$
+        exclude: ^.*\b(migrations)\b.*$
 -   repo: https://github.com/psf/black
     rev: stable
     hooks:
     - id: black
-      language_version: python3.x # 버전 명시해줘야 함
+        language_version: python3.10 # 버전 명시해줘야 함
 -   repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:

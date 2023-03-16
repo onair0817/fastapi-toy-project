@@ -19,6 +19,8 @@
 │       └── helpers.py
 ├── log
 │   └── document_ocr.log
+├── configs
+│   └── config.toml
 ├── assets
 └── README.md
 ```

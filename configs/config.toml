@@ -1,5 +1,13 @@
-[rabbitmq]
-host = "localhost"
-username = "guest"
-password = "guest"
-queue_name = "request_queue"
+[logging]
+file_path = "../log/document_ocr.log"
+format = "%(asctime)s %(levelname)s:%(message)s"
+date_format = "%m/%d/%Y %I:%M:%S%p"
+level = "INFO"
+
+[api]
+base_path = "/api/v2/ocr"
+version = "v2"
+
+[page]
+start = 0
+maximum = 21

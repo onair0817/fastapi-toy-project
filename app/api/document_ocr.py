@@ -1,5 +1,6 @@
 from typing import Optional
 
+import toml
 from fastapi import APIRouter, Request, Form
 
 from schemas.image import ImageInfo
@@ -10,17 +11,24 @@ from utils.helpers import (
 )
 
 router = APIRouter()
+config = toml.load("configs/config.toml")
 
 
-@router.post("/api/v2/ocr/document", status_code=200, response_model=ImageInfo)
+@router.post("/document", status_code=200, response_model=ImageInfo)
 async def document_ocr_request(
     request: Request,
     docType: Optional[str] = Form(None),
     pageNo: Optional[int] = Form(None),
     imgFile: Optional[bytes] = Form(None),
 ):
-    page_no_aliases = [f"imgInfo[{i}].pageNo" for i in range(0, 21)]
-    img_file_aliases = [f"imgInfo[{i}].imgFile" for i in range(0, 21)]
+    page_no_aliases = [
+        f"imgInfo[{i}].pageNo"
+        for i in range(config["page"]["start"], config["page"]["maximum"])
+    ]
+    img_file_aliases = [
+        f"imgInfo[{i}].imgFile"
+        for i in range(config["page"]["start"], config["page"]["maximum"])
+    ]
 
     if pageNo is None:
         pageNo_str = await form_data_alias(request, page_no_aliases)

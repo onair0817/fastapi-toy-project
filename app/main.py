@@ -8,10 +8,10 @@ from core.middlewares import LoggingMiddleware
 from api import document_ocr
 
 
-config = toml.load("configs/config.toml")
-
 CURRENT_FILE_PATH = os.path.abspath(os.path.dirname(__file__))
-LOG_FILE_PATH = os.path.join(CURRENT_FILE_PATH, config["logging"]["file_path"])
+LOG_FILE_PATH = os.path.join(CURRENT_FILE_PATH, "../log/document_ocr.log")
+
+config = toml.load(os.path.join(CURRENT_FILE_PATH, "../configs/config.toml"))
 
 os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
 

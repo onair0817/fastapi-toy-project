@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 
 import toml
@@ -10,8 +11,10 @@ from utils.helpers import (
     process_request,
 )
 
+CURRENT_FILE_PATH = os.path.abspath(os.path.dirname(__file__))
+config = toml.load(os.path.join(CURRENT_FILE_PATH, "../../configs/config.toml"))
+
 router = APIRouter()
-config = toml.load("configs/config.toml")
 
 
 @router.post("/document", status_code=200, response_model=ImageInfo)
